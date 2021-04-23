@@ -4,20 +4,39 @@ import 'package:my_flutter_app/model/grid_nav_model.dart';
 import 'package:my_flutter_app/model/sales_box_model.dart';
 
 class HomeModel {
-  final ConfigModel config;
-  final List<CommonModel> bannerList;
-  final List<CommonModel> localNavList;
-  final List<CommonModel> subNavList;
-  final GridNavModel gridNav;
-  final SalesBoxModel salesBox;
+  ConfigModel _config;
+  List<CommonModel> _bannerList;
+  List<CommonModel> _localNavList;
+  List<CommonModel> _subNavList;
+  GridNavModel _gridNav;
+  SalesBoxModel _salesBox;
+
+  ConfigModel get config => _config;
+
+  List<CommonModel> get bannerList => _bannerList;
+
+  List<CommonModel> get localNavList => _localNavList;
+
+  List<CommonModel> get subNavList => _subNavList;
+
+  GridNavModel get gridNav => _gridNav;
+
+  SalesBoxModel get salesBox => _salesBox;
 
   HomeModel(
-      {this.config,
-      this.bannerList,
-      this.localNavList,
-      this.subNavList,
-      this.gridNav,
-      this.salesBox});
+      {ConfigModel config,
+      List<CommonModel> bannerList,
+      List<CommonModel> localNavList,
+      List<CommonModel> subNavList,
+      GridNavModel gridNav,
+      SalesBoxModel salesBox}) {
+    _config = config;
+    _bannerList = bannerList;
+    _localNavList = localNavList;
+    _subNavList = subNavList;
+    _gridNav = gridNav;
+    _salesBox = salesBox;
+  }
 
   factory HomeModel.fromJson(Map<String, dynamic> json) {
     var localNavListJson = json['localNavList'] as List;
@@ -40,5 +59,28 @@ class HomeModel {
       gridNav: GridNavModel.fromJson(json['gridNav']),
       salesBox: SalesBoxModel.fromJson(json['salesBox']),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    var map = <String, dynamic>{};
+    if (_config != null) {
+      map["config"] = _config.toJson();
+    }
+    if (_bannerList != null) {
+      map["bannerList"] = _bannerList.map((v) => v.toJson()).toList();
+    }
+    if (_localNavList != null) {
+      map["localNavList"] = _localNavList.map((v) => v.toJson()).toList();
+    }
+    if (_gridNav != null) {
+      map["gridNav"] = _gridNav.toJson();
+    }
+    if (_subNavList != null) {
+      map["subNavList"] = _subNavList.map((v) => v.toJson()).toList();
+    }
+    if (_salesBox != null) {
+      map["salesBox"] = _salesBox.toJson();
+    }
+    return map;
   }
 }

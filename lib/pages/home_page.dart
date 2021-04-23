@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:my_flutter_app/dao/home_dao.dart';
+import 'dart:convert';
+
+import 'package:my_flutter_app/model/home_model.dart';
 
 const APPBAR_SCROLL_OFFSET = 100;
 
@@ -16,6 +20,14 @@ class _HomePageState extends State<HomePage> {
   ];
 
   double appBarAlpha = 0;
+  String resultString = "";
+
+  @override
+  void initState() {
+    super.initState();
+
+    loadData();
+  }
 
   // 滑动监听
   _onScroll(offset) {
@@ -28,6 +40,19 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       appBarAlpha = alpha;
     });
+  }
+
+  loadData() async {
+    try {
+      HomeModel model = await HomeDao.fetch();
+      setState(() {
+        resultString = json.encode(model.config);
+      });
+    } catch (e) {
+      setState(() {
+        resultString = e.toString();
+      });
+    }
   }
 
   @override
@@ -65,7 +90,7 @@ class _HomePageState extends State<HomePage> {
                   Container(
                     height: 800,
                     child: ListTile(
-                      title: Text('Hellow World'),
+                      title: Text(resultString),
                     ),
                   )
                 ],

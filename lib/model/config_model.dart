@@ -1,11 +1,21 @@
 class ConfigModel {
-  final String searchUrl;
+  String _searchUrl;
 
-  ConfigModel({this.searchUrl});
+  String get searchUrl => _searchUrl;
 
-  factory ConfigModel.fromJson(Map<String, dynamic> json) {
-    return ConfigModel(
-      searchUrl: json['searchUrl'],
-    );
+  ConfigModel({String searchUrl}) {
+    _searchUrl = searchUrl;
+  }
+
+  ConfigModel.fromJson(dynamic json) {
+    _searchUrl = json["searchUrl"];
+  }
+
+  Map<String, dynamic> toJson() {
+    var map = <String, dynamic>{};
+    if (_searchUrl != null) {
+      map["searchUrl"] = _searchUrl;
+    }
+    return map;
   }
 }
