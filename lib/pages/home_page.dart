@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:my_flutter_app/dao/home_dao.dart';
 import 'package:my_flutter_app/model/common_model.dart';
+import 'package:my_flutter_app/model/grid_nav_model.dart';
 import 'dart:convert';
 
 import 'package:my_flutter_app/model/home_model.dart';
+import 'package:my_flutter_app/widget/grid_nav.dart';
 import 'package:my_flutter_app/widget/local_nav.dart';
+import 'package:my_flutter_app/widget/sub_nav.dart';
 
 const APPBAR_SCROLL_OFFSET = 100;
 
@@ -24,6 +27,8 @@ class _HomePageState extends State<HomePage> {
   double appBarAlpha = 0;
   String resultString = "";
   List<CommonModel> localNavList = [];
+  List<CommonModel> subNavList = [];
+  GridNavModel gridNavModel;
 
   @override
   void initState() {
@@ -50,6 +55,8 @@ class _HomePageState extends State<HomePage> {
       HomeModel model = await HomeDao.fetch();
       setState(() {
         localNavList = model.localNavList;
+        subNavList = model.subNavList;
+        gridNavModel = model.gridNav;
       });
     } catch (e) {
       setState(() {
@@ -94,6 +101,14 @@ class _HomePageState extends State<HomePage> {
                   Padding(
                       padding: EdgeInsets.fromLTRB(7, 4, 7, 4),
                       child: LocalNav(localNavList: localNavList)),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(7, 0, 7, 4),
+                    child: GridNav(gridNavModel: gridNavModel,),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(7, 0, 7, 4),
+                    child: SubNav(subNavList: subNavList),
+                  ),
                   Container(
                     height: 800,
                     child: ListTile(

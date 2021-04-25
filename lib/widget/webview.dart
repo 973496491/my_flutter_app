@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
@@ -62,24 +61,25 @@ class _WebViewState extends State<WebView> {
     });
   }
 
-  _isToMain(String url) {
-    bool contain = false;
+    _isToMain(String url) {
+      bool contain = false;
     for (final value in CATCH_URLS) {
       if (url?.endsWith(value) ?? false) {
         contain = true;
         break;
       }
     }
+    return contain;
   }
 
   @override
   void dispose() {
-    super.dispose();
-
     _onUrlChanged.cancel();
     _onStateChanged.cancel();
     _onHttpError.cancel();
     webViewReference.dispose();
+
+    super.dispose();
   }
 
   @override
@@ -125,11 +125,16 @@ class _WebViewState extends State<WebView> {
       );
     }
     return Container(
+      color: backgroundColor,
+      padding: EdgeInsets.fromLTRB(0, 40, 0, 10),
       child: FractionallySizedBox(
         widthFactor: 1,
         child: Stack(
           children: <Widget>[
             GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
               child: Container(
                   margin: EdgeInsets.only(left: 10),
                   child: Icon(
